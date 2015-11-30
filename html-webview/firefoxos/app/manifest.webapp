@@ -1,0 +1,39 @@
+{
+	"name":        "__NAME__",
+	"version":     "1.0",
+	"size":        __SIZE__,
+	"launch_path": "/index.html",
+	"description": "__NAME__ (built with lycheeJS)",
+	"icons": {
+		"128": "/icon.png"
+	},
+	"developer": {
+		"name": "The lycheeJS Team",
+		"url":  "http://lycheejs.org"
+	},
+	"installs_allowed_from": [
+		"*"
+	],
+	"default_locale": "en",
+	"permissions": {
+		"storage": {
+			"description": "This app uses local storage for updates"
+		},
+		"mobilenetwork": {
+			"description": "This app uses peer-to-peer WebSockets"
+		},
+		"tcp-socket": {
+			"description": "This app uses peer-to-peer WebSockets"
+		}
+	},
+	"locales": {
+		"en": {
+			"name":        "__NAME__",
+			"description": "__NAME__ (built with lycheeJS)"
+		},
+		"en-US": {
+			"name":        "__NAME__",
+			"description": "__NAME__ (built with lycheeJS)"
+		}
+	}
+}

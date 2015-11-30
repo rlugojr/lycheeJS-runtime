@@ -1,0 +1,10 @@
+Package: __NAME__
+Version: 1.0.0
+Architecture: all
+Maintainer: The lycheeJS Team <lycheejs@gmail.com>
+Installed-Size: __SIZE__
+Depends: webapp-container
+Section: misc
+Homepage: http://lycheejs.org
+Description: __NAME__ (built with lycheeJS)
+
