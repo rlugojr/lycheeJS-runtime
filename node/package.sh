@@ -43,20 +43,20 @@ _package_linux () {
 
 	mkdir "$BUILD_ID-linux/arm";
 	cp "$RUNTIME_ROOT/linux/arm/node" "$BUILD_ID-linux/arm/node";
-	cp "$RUNTIME_ROOT/linux/arm/init.sh" "$BUILD_ID-linux/arm/$PROJECT_NAME";
+	cp "$RUNTIME_ROOT/linux/arm/init.sh" "$BUILD_ID-linux/arm/$PROJECT_NAME.sh";
 	cp "$BUILD_ID/index.js" "$BUILD_ID-linux/arm/index.js";
 	chmod +x "$BUILD_ID-linux/arm/node";
-	chmod +x "$BUILD_ID-linux/arm/$PROJECT_NAME";
+	chmod +x "$BUILD_ID-linux/arm/$PROJECT_NAME.sh";
 
 	mkdir "$BUILD_ID-linux/x86_64";
 	cp "$RUNTIME_ROOT/linux/x86_64/node" "$BUILD_ID-linux/x86_64/node";
-	cp "$RUNTIME_ROOT/linux/x86_64/init.sh" "$BUILD_ID-linux/x86_64/$PROJECT_NAME";
+	cp "$RUNTIME_ROOT/linux/x86_64/init.sh" "$BUILD_ID-linux/x86_64/$PROJECT_NAME.sh";
 	cp "$BUILD_ID/index.js" "$BUILD_ID-linux/x86_64/index.js";
 	chmod +x "$BUILD_ID-linux/x86_64/node";
-	chmod +x "$BUILD_ID-linux/x86_64/$PROJECT_NAME";
+	chmod +x "$BUILD_ID-linux/x86_64/$PROJECT_NAME.sh";
 
 
-	if [ -x "$BUILD_ID-linux/arm/$PROJECT_NAME" ] && [ -x "$BUILD_ID-linux/x86_64/$PROJECT_NAME" ]; then
+	if [ -x "$BUILD_ID-linux/arm/$PROJECT_NAME.sh" ] && [ -x "$BUILD_ID-linux/x86_64/$PROJECT_NAME.sh" ]; then
 		LINUX_STATUS=0;
 	fi;
 
@@ -72,13 +72,13 @@ _package_osx () {
 
 	mkdir "$BUILD_ID-osx/x86_64";
 	cp "$RUNTIME_ROOT/osx/x86_64/node" "$BUILD_ID-osx/x86_64/node";
-	cp "$RUNTIME_ROOT/osx/x86_64/init.sh" "$BUILD_ID-osx/x86_64/$PROJECT_NAME";
+	cp "$RUNTIME_ROOT/osx/x86_64/init.sh" "$BUILD_ID-osx/x86_64/$PROJECT_NAME.sh";
 	cp "$BUILD_ID/index.js" "$BUILD_ID-osx/x86_64/index.js";
 	chmod +x "$BUILD_ID-osx/x86_64/node";
-	chmod +x "$BUILD_ID-osx/x86_64/$PROJECT_NAME";
+	chmod +x "$BUILD_ID-osx/x86_64/$PROJECT_NAME.sh";
 
 
-	if [ -x "$BUILD_ID-osx/x86_64/$PROJECT_NAME" ]; then
+	if [ -x "$BUILD_ID-osx/x86_64/$PROJECT_NAME.sh" ]; then
 		OSX_STATUS=0;
 	fi;
 
