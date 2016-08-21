@@ -38,8 +38,8 @@ cd /opt/lycheejs/bin/runtime;
 
 The `do-release.sh` script allows to create a release for
 github. It will package everything into a `zip` file that
-is uploaded to the [releases](./releases) section of this
-repository.
+is uploaded to the [releases section](https://github.com/Artificial-Engineering/lycheejs-runtime/releases)
+of this repository.
 
 In order to make this work, you have to be a contributor
 inside the [Artificial-Engineering](https://github.com/Artificial-Engineering)
@@ -63,5 +63,7 @@ cd /opt/lycheejs/bin/runtime;
 # Work-in-Progress
 
 - `html-nwjs` Linux ARM build [#1151](https://github.com/nwjs/nw.js/issues/1151)
-- `html-webview` needs Android Nougat Toolchain update (and automatic download, so it's not tracked in this repository anymore)
+- `html-webview` needs Android Nougat Toolchain update
+- Android Nougat SDK needs automation for static fixes
+- Android Nougat SDK needs statically built (and modified) gradle
 
