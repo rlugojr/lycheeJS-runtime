@@ -4,51 +4,12 @@ set -u;
 set -e;
 
 
-lowercase() {
-	echo "$1" | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/";
-}
-
-OS=`lowercase \`uname\``;
-ARCH=`lowercase \`uname -m\``;
-
-GITHUB_RELEASE="";
+TMP_STATUS="/tmp/lycheejs-runtime.json";
 GITHUB_TOKEN=$(cat "/opt/lycheejs/.github/TOKEN");
 RELEASE_USER="Artificial-Engineering";
 RELEASE_REPO="lycheejs-runtime";
 RELEASE_NAME=$(date +"%Y.%m.%d");
 RUNTIME_ROOT=$(cd "$(dirname "$0")/../"; pwd);
-
-
-if [ "$ARCH" == "x86_64" -o "$ARCH" == "amd64" ]; then
-	ARCH="x86_64";
-fi;
-
-if [ "$ARCH" == "i386" -o "$ARCH" == "i686" -o "$ARCH" == "i686-64" ]; then
-	ARCH="x86";
-fi;
-
-if [ "$ARCH" == "armv7l" -o "$ARCH" == "armv8" ]; then
-	ARCH="arm";
-fi;
-
-
-if [ "$OS" == "darwin" ]; then
-
-	OS="osx";
-	GITHUB_RELEASE="$RUNTIME_ROOT/bin/helper/osx/$ARCH/github-release";
-
-elif [ "$OS" == "linux" ]; then
-
-	OS="linux";
-	GITHUB_RELEASE="$RUNTIME_ROOT/bin/helper/linux/$ARCH/github-release";
-
-fi;
-
-if [ ! -f $GITHUB_RELEASE ]; then
-	echo "Sorry, your computer is not supported. ($OS / $ARCH)";
-	exit 1;
-fi;
-
 
 
 if [ -f "$RUNTIME_ROOT/lycheejs-runtime.zip" ]; then
@@ -60,16 +21,36 @@ cd $RUNTIME_ROOT;
 zip -r lycheejs-runtime.zip README.md ./bin ./html-nwjs ./html-webview ./node;
 
 
-if [ -f $GITHUB_RELEASE ] && [ "$GITHUB_TOKEN" != "" ]; then
+if [ "$GITHUB_TOKEN" != "" ]; then
+
+	echo "RELEASE lycheejs-runtime";
 
 	cd $RUNTIME_ROOT;
 
-	$GITHUB_RELEASE release --user $RELEASE_USER --repo $RELEASE_REPO --tag $RELEASE_NAME --name $RELEASE_NAME --pre-release --security-token $GITHUB_TOKEN;
-	$GITHUB_RELEASE upload --user $RELEASE_USER --repo $RELEASE_REPO --tag $RELEASE_NAME --name lycheejs-runtime.zip --file $RUNTIME_ROOT/lycheejs-runtime.zip --security-token $GITHUB_TOKEN;
+	curl --silent -X POST -H "Authorization: token $GITHUB_TOKEN" -H "Content-Type: application/json" --data "{\"tag_name\":\"$RELEASE_NAME\",\"name\":\"$RELEASE_NAME\",\"prerelease\":true}" "https://api.github.com/repos/$RELEASE_USER/$RELEASE_REPO/releases" -o "$TMP_STATUS";
+
+
+	release_id=$(cat "$TMP_STATUS"; | grep id | cut -d"," -f1 | cut -d":" -f2 | head -1 | tr -d '[[:space:]]');
+
+	if [ "$release_id" != "ValidationFailed" ]; then
+
+		echo "> uploading zip for $release_id ...";
+
+		cd $RUNTIME_ROOT;
+		curl --silent -X POST -H "Authorization: token $GITHUB_TOKEN" -H "Content-Type: application/zip" --data-binary "@$RUNTIME_ROOT/lycheejs-runtime.zip" "https://uploads.github.com/repos/$RELEASE_USER/$RELEASE_REPO/releases/$release_id/assets?name=lycheejs-runtime.zip" &> /dev/null;
+
+		echo "SUCCESS";
+		exit 0;
+
+	else
+
+		echo "FAILURE";
+		exit 1;
+
+	fi;
 
 fi;
 
 
-# TODO: Do this again
-# rm "$RUNTIME_ROOT/lycheejs-runtime.zip";
+rm "$RUNTIME_ROOT/lycheejs-runtime.zip";
 
