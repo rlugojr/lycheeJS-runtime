@@ -30,7 +30,7 @@ if [ "$GITHUB_TOKEN" != "" ]; then
 	curl --silent -X POST -H "Authorization: token $GITHUB_TOKEN" -H "Content-Type: application/json" --data "{\"tag_name\":\"$RELEASE_NAME\",\"name\":\"$RELEASE_NAME\",\"prerelease\":true}" "https://api.github.com/repos/$RELEASE_USER/$RELEASE_REPO/releases" -o "$TMP_STATUS";
 
 
-	release_id=$(cat "$TMP_STATUS"; | grep id | cut -d"," -f1 | cut -d":" -f2 | head -1 | tr -d '[[:space:]]');
+	release_id=$(cat "$TMP_STATUS" | grep id | cut -d"," -f1 | cut -d":" -f2 | head -1 | tr -d '[[:space:]]');
 
 	if [ "$release_id" != "ValidationFailed" ]; then
 
